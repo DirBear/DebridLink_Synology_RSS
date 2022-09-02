@@ -7,6 +7,8 @@ It will generate an RSS directly from the seedbox feed of your DebridLink accoun
 
 Simple use, less functionality 
 
+## Use it in your own script
+
 1. Create .env file with following example (also available in "envExample" file)
 ```
 DEBRID_LINK_TOKEN=YOUR_DEBIRD_API_TOKEN
@@ -17,9 +19,10 @@ RSS_DESCRIPTION=RSS_DESCRIPTION_STRING
 2. Call the script with this (or create your own way to do this)
 ```
 var rss = require('../models/debridLink');
-var xmlRSS = await rss.getRSS();
+var xmlRSS = await rss.getRSS(); // Return the XML RSS Feed
 ```
 
+## Use it as it
 You can also just use as it and create the .env file. 
 
 1. Clone the repo 
