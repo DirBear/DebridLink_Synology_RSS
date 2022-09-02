@@ -38,13 +38,13 @@ class RSSItem {
     }
 
     getRSSFeed() {
-        return '<item>' +
-            `\n\t<title>${this.name}</title>` +
-            `\n\t<link>${this.link}</link>` +
-            `\n\t<description>"${this.name}"</description>` +
-            `\n\t<pubDate>${this.date /*Tue, 03 Jun 2003 09:39:21 GMT*/}</pubDate>` +
-            `\n\t<guid>${process.env.RSS_URL}/${this.id /*http://liftoff.msfc.nasa.gov/2003/06/03.html#item573*/}</guid>` +
-            `\n</item>`;
+        return '\t\t\t<item>' +
+            `\n\t\t\t\t<title>${this.name}</title>` +
+            `\n\t\t\t\t<link>${this.link}</link>` +
+            `\n\t\t\t\t<description>"${this.name}"</description>` +
+            `\n\t\t\t\t<pubDate>${this.date /*Tue, 03 Jun 2003 09:39:21 GMT*/}</pubDate>` +
+            `\n\t\t\t\t<guid>${process.env.RSS_URL}/${this.id /*http://liftoff.msfc.nasa.gov/2003/06/03.html#item573*/}</guid>` +
+            `\n\t\t\t</item>`;
     }
 
 
