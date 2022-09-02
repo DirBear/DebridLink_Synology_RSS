@@ -20,7 +20,7 @@ class RSS {
             `\n\t\t<title>${this.title}</title>` +
             `\n\t\t<link>${this.link}</link>` +
             `\n\t\t<description>"${this.description}"</description>` +
-            `\n\t\t\t${string}` +
+            string +
             '\n\t</channel>' +
             '\n</rss>'
 
