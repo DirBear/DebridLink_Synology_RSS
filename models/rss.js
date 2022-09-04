@@ -25,12 +25,8 @@ class RSS {
         // Go through the array
         let string = "";
         for ( let item of this.feedList){
-            if (this.lastUpdate != undefined){
-                if (item.created > this.lastUpdate)
-                    string += `\n${item.getRSSFeed()}`;
-            }
+            string += `\n${item.getRSSFeed()}`;
         }
-        this.lastUpdate = new Date();
         return '<?xml version="1.0"?>\n<rss version="2.0">' +
             '\n\t<channel>' +
             `\n\t\t<title>${this.title}</title>` +
@@ -50,7 +46,7 @@ class RSSItem {
         this.name = name.replace('&', 'et');
         this.percent = percent;
         this.link = link;
-        this.created = new Date(created*1000);
+        this.created = new Date(created);
         this.date = getRFC822_Date(this.created);
     }
     /** GET XML Feed for this item */
