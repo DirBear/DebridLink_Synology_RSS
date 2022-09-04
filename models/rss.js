@@ -8,13 +8,29 @@ class RSS {
         this.pubDate = getRFC822_Date(new Date());
         this.feedList = [];
     }
-
+    /** GET Xml for a specific item */
+    getItem(item){
+        if ( item == undefined) return item;        
+        return '<?xml version="1.0"?>\n<rss version="2.0">' +
+            '\n\t<channel>' +
+            `\n\t\t<title>${this.title}</title>` +
+            `\n\t\t<link>${this.link}</link>` +
+            `\n\t\t<description>"${this.description}"</description>` +
+            item.getRSSFeed() +
+            '\n\t</channel>' +
+            '\n</rss>'
+    }
+    /** Get all the items as RSS Feed */
     getFeed() { 
         // Go through the array
         let string = "";
         for ( let item of this.feedList){
-            string += `\n${item.getRSSFeed()}`
+            if (this.lastUpdate != undefined){
+                if (item.created > this.lastUpdate)
+                    string += `\n${item.getRSSFeed()}`;
+            }
         }
+        this.lastUpdate = new Date();
         return '<?xml version="1.0"?>\n<rss version="2.0">' +
             '\n\t<channel>' +
             `\n\t\t<title>${this.title}</title>` +
@@ -34,9 +50,10 @@ class RSSItem {
         this.name = name.replace('&', 'et');
         this.percent = percent;
         this.link = link;
-        this.date = getRFC822_Date(new Date(created));
+        this.created = new Date(created*1000);
+        this.date = getRFC822_Date(this.created);
     }
-
+    /** GET XML Feed for this item */
     getRSSFeed() {
         return '\t\t\t<item>' +
             `\n\t\t\t\t<title>${this.name}</title>` +

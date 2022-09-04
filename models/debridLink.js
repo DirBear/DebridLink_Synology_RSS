@@ -1,8 +1,10 @@
 const https = require('https');
 const { RSS, RSSItem } = require('./rss');
 
+// Initialize a new RSS Item
 var rss = new RSS(process.env.RSS_NAME, process.env.RSS_URL, process.env.RSS_DESCRIPTION);
 
+/** GET All the debrid links items and save it into RSS */
 function getDebridLinks() {
     return new Promise((resolve, reject) => {
         const options = {
@@ -35,10 +37,13 @@ function getDebridLinks() {
     });
 
 }
+
+/** GET The RSS Flux as string updated */
 async function getRSS () {
     let items = await getDebridLinks();
     var id = 0;
     rss.feedList = [];
+    items.value.reverse();
     for (let elem of items.value){
         if (elem.files != 0){
             for (let el of elem.files){
@@ -47,48 +52,15 @@ async function getRSS () {
             }
         }
     }
+    rss.feedList.reverse();
     console.log(rss.getFeed())
     return rss.getFeed();
 }
-module.exports = {getRSS}
 
-/*
-    {
-      "id": "2115ca3cf4356d24510",
-      "name": "The name of torrent",
-      "hashString": "89d03825d68c9173377b05f3f3d6e67236f7dac2",
-      "uploadRatio": 1.42,
-      "serverId": "seed20",
-      "wait": false,
-      "peersConnected": 0,
-      "status": 6,
-      "totalSize": 2556175746,
-      "files": [
-        {
-          "id": "2115ca3cf4356d24510-1",
-          "name": "The.file.name.ext",
-          "downloadUrl": "https://seed20.debrid.link/dl/...",
-          "size": 1278087873,
-          "downloadPercent": 100
-        },
-        {
-          "id": "2115ca3cf4356d24510-2",
-          "name": "The.file.name.ext",
-          "downloadUrl": "https://seed20.debrid.link/dl/...",
-          "size": 1278087873,
-          "downloadPercent": 100
-        }
-      ],
-      "trackers": [
-        {
-          "announce": "http://..."
-        }
-      ],
-      "created": 1662144667,
-      "downloadPercent": 100,
-      "downloadSpeed": 0,
-      "uploadSpeed": 0
-    }
+/** GET XML for specific RSS Item */
+function getRSSItem(id) {
+    let result = rss.feedList.find( feed => feed.id == id);
+    return rss.getItem(result);
+}
 
-
-*/
+module.exports = {getRSS, getRSSItem}
