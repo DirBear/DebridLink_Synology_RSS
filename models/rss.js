@@ -41,12 +41,13 @@ class RSS {
 }
 class RSSItem {
 
-    constructor(id, name, percent, link, created) {
+    constructor(id, name, percent, link, created, size) {
         this.id = id;
         this.name = name.replace('&', 'et');
         this.percent = percent;
         this.link = link;
         this.created = new Date(created);
+        this.size = (size * (0.000000001)).toFixed(2);
         this.date = getRFC822_Date(this.created);
     }
     /** GET XML Feed for this item */
@@ -56,6 +57,8 @@ class RSSItem {
             `\n\t\t\t\t<link>${this.link}</link>` +
             `\n\t\t\t\t<description>"${this.name}"</description>` +
             `\n\t\t\t\t<pubDate>${this.date /*Tue, 03 Jun 2003 09:39:21 GMT*/}</pubDate>` +
+            `\n\t\t\t\t<size>${this.size}GB</size>` +
+            //9.31×10-10
             `\n\t\t\t\t<guid>${process.env.RSS_URL}/${this.id /*http://liftoff.msfc.nasa.gov/2003/06/03.html#item573*/}</guid>` +
             `\n\t\t\t</item>`;
     }

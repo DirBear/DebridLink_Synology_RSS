@@ -42,17 +42,19 @@ function getDebridLinks() {
 async function getRSS () {
     let items = await getDebridLinks();
     var id = 0;
-    rss.feedList = [];
-    items.value.reverse();
+    let lastId = -1;
+    rss.feedList.forEach(el => { if (el.id > lastId) lastId = el.id });
+    lastId++;
     for (let elem of items.value){
         if (elem.files != 0){
             for (let el of elem.files){
                 if (el.downloadPercent != 100) continue;
-                rss.feedList.push(new RSSItem(id++, el.name, el.downloadPercent, el.downloadUrl, elem.created*1000));
+                if (rss.feedList.find(feed => feed.name == el.name)) continue;
+                rss.feedList.push(new RSSItem(lastId++, el.name, el.downloadPercent, el.downloadUrl, elem.created*1000, el.size));
             }
         }
     }
-    rss.feedList.reverse();
+    rss.feedList.sort((a, b) => a.id > b.id ? -1 : 1)
     console.log(rss.getFeed())
     return rss.getFeed();
 }
